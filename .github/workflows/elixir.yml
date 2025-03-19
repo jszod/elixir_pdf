@@ -37,4 +37,8 @@ jobs:
     - name: Install dependencies
       run: mix deps.get
     - name: Run tests
+<<<<<<< HEAD
       run: mix test
+=======
+      run: mix test
+>>>>>>> 0e4b93aed3422c7c965a9a79a84faf82733d4678

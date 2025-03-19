@@ -1,5 +1,8 @@
 # ElixirPdf
 
+This is a simple example on how to use a Rust NIF to convert pdf files to text.
+The Rust NIF uses the exctractous crate to extract text from pdf files.
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
