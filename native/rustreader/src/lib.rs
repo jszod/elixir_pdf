@@ -1,5 +1,5 @@
 use extractous::Extractor;
-use rustler::{Encoder, Env, NifResult, Term};
+use rustler::NifResult;
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn extract_pdf(path: String) -> NifResult<String> {
@@ -17,4 +17,4 @@ fn extract_pdf(path: String) -> NifResult<String> {
  }
 }
 
-rustler::init!("Elixir.ElixirPdf.RustReader", [extract_pdf]);
+rustler::init!("Elixir.ElixirPdf.RustReader");
