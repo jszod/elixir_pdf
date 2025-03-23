@@ -35,6 +35,9 @@ elixir_pdf-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# Ignore everything in the uploads directory.
+priv/uploads/*
+
 
 # Rust binary artifacts
 /target/
