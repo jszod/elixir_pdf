@@ -36,17 +36,8 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
-    - name: Install Tika
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y tika
-    - name: Verify Tika Installation and Find Library
-      run: |
-        apt list --installed | grep tika
-        find / -name libtika_native.so 2>/dev/null || true
-    - name: Set LD_LIBRARY_PATH
-      run: |
-         echo "LD_LIBRARY_PATH=/usr/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+    - name: Download Tika App Jar
+      run: wget -O native/rustreader/tika-app.jar https://www.apache.org/dyn/closer.lua/tika/3.1.0/tika-app-3.1.0.jar
     - name: Run tests
       run: mix test
 

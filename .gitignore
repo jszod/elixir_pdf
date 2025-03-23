@@ -21,6 +21,8 @@ erl_crash.dump
 
 # Temporary files, for example, from tests.
 /tmp/
+temp_extractous.html
+temp_search.html
 
 # Ignore package tarball (built via "mix hex.build").
 elixir_pdf-*.tar
@@ -42,6 +44,7 @@ priv/uploads/*
 # Rust binary artifacts
 /target/
 /native/rustreader/target/
+/native/rustreader/extractous/
 Cargo.lock
 priv/native/*.so
 .DS_Store
