@@ -27,6 +27,7 @@ mod reader_nifs {
 
 // Required to make the module loadable
 fn load(_env: rustler::Env, _load_info: rustler::Term) -> bool {
+    eprintln!("RustReader NIF loaded");
     true
 }
 
