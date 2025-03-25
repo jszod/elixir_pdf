@@ -16,8 +16,9 @@ defmodule ElixirPdfWeb.Router do
 
   scope "/", ElixirPdfWeb do
     pipe_through :browser
+    live "/", HomeLive, :index
 
-    get "/", PageController, :home
+    # get "/", PageController, :home
   end
 
   # Other scopes may use custom stacks.

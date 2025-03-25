@@ -28,6 +28,9 @@ defmodule ElixirPdfWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import ElixirPdfWeb.ConnCase
+
+      # Import PhoenixTest
+      import PhoenixTest
     end
   end
 
