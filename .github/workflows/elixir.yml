@@ -24,6 +24,29 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
+
+    - name: Debug platform information
+      run: |
+        echo "System Information"
+        uname -a
+        echo ""
+
+        echo "CPU Architecture"
+        lscpu || echo "lscpu not found"
+
+        echo ""
+        echo "Elixir and Erlang Version"
+        elixir --version
+        erl -version || echo "Erlang not found"
+
+        echo ""
+        echo "Path"
+        echo $PATH
+
+        echo ""
+        echo "HOME"
+        echo $HOME
+
     
     - name: Install build tools and dependencies
       run: |
@@ -44,32 +67,40 @@ jobs:
         ln -sf /usr/local/lib/libtika_native.so /usr/lib/libtika_native.so
         ldconfig
     
-    - name: Get Elixir dependencies
+
+    
+    
+    
+    - name: Reset and prepare Elixir environment
       run: |
-        mix local.hex --force
+        echo "📦 Installing Hex and Rebar"
+        . "$HOME/.cargo/env"
+        mix local.hex --force || echo "Hex already installed"
         mix local.rebar --force
-        mix deps.get --force
-      env:
-        LD_LIBRARY_PATH: "/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH"
-    
-    - name: Force clean build
-      run: |
-        # Deep clean
-        rm -rf _build
-        rm -rf deps
-    
-    - name: Get dependencies
-      run: |
+
+        echo "🧹 Cleaning build artifacts"
+        rm -rf _build deps .elixir_ls
+        mix clean || true
+
+        echo "📥 Fetching dependencies"
         mix deps.get
-        mix deps.clean --all
-        mix deps.get
-      env:
-        LD_LIBRARY_PATH: "/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH"
-      
+
+        echo "🛠 Compiling dependencies"
+        mix deps.compile --warnings-as-errors
+      timeout-minutes: 5
+
+  
     - name: Compile
       run: |
+        # Find JVM library path
+        export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")
+        export LD_LIBRARY_PATH="$JAVA_HOME/lib:$JAVA_HOME/lib/server:$LD_LIBRARY_PATH"
+        
+        # Set RUSTFLAGS to include Java library paths
+        export RUSTFLAGS="-C link-arg=-Wl,-rpath,$JAVA_HOME/lib -C link-arg=-Wl,-rpath,$JAVA_HOME/lib/server $RUSTFLAGS"
+        
         # Force single-threaded compilation to avoid module caching issues
-        mix compile --force
+        mix compile
       env:
         LD_LIBRARY_PATH: "/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH"
         RUSTFLAGS: "-C link-arg=-Wl,-rpath,/usr/lib -C link-arg=-Wl,-rpath,/usr/local/lib"
