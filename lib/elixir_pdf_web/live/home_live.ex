@@ -34,7 +34,7 @@ defmodule ElixirPdfWeb.HomeLive do
       |> hd()
       |> RustReader.extract_pdf()
 
-    IO.inspect(pdf_document)
+    # IO.inspect(pdf_document)
 
     {:noreply,
      socket
