@@ -6,6 +6,7 @@ defmodule ElixirPdfWeb.HomeLiveTest do
   # import Mock
 
   @fixture_pdf_path "test/fixtures/pdf/test.pdf"
+  @expected_text "This is a test PDF file"
 
   setup do
     # Make sure the uploads directory exists
@@ -32,7 +33,7 @@ defmodule ElixirPdfWeb.HomeLiveTest do
     # |> refute_has("[phx-feedback-for]", test: "not a valid PDF")
   end
 
-  test "validates file upload and sh", %{conn: conn} do
+  test "validates file upload and save", %{conn: conn} do
     conn
     |> visit("/")
     |> upload("browse", @fixture_pdf_path)
@@ -40,5 +41,15 @@ defmodule ElixirPdfWeb.HomeLiveTest do
     |> click_button("#submit-button", "Upload")
 
     assert File.exists?(Path.join(["priv", "uploads", "test.pdf"]))
+  end
+
+  test "displays extracted text", %{conn: conn} do
+    conn
+    |> visit("/")
+    |> upload("browse", @fixture_pdf_path)
+    |> assert_has("#submit-button")
+    |> click_button("#submit-button", "Upload")
+    |> assert_has("h2", text: "Extracted PDF Text")
+    |> assert_has("pre", text: @expected_text)
   end
 end
