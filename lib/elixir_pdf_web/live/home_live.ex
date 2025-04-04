@@ -1,10 +1,13 @@
 defmodule ElixirPdfWeb.HomeLive do
   use ElixirPdfWeb, :live_view
 
+  alias ElixirPdf.RustReader
+
   def mount(_params, _session, socket) do
     {:ok,
      socket
      |> assign(:uploaded_files, [])
+     |> assign(:pdf_document, nil)
      |> allow_upload(:pdf,
        accept: ~w(.pdf),
        max_entries: 1,
@@ -29,6 +32,9 @@ defmodule ElixirPdfWeb.HomeLive do
     pdf_document =
       uploaded_files
       |> hd()
+      |> RustReader.extract_pdf()
+
+    # IO.inspect(pdf_document)
 
     {:noreply,
      socket
