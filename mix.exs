@@ -65,7 +65,7 @@ defmodule ElixirPdf.MixProject do
       {:bandit, "~> 1.5"},
       {:rustler, "~> 0.36.1"},
       {:mock, "~> 0.3.9", only: [:dev, :test]},
-      {:phoenix_test, "~> 0.5.2", only: [:test]}
+      {:phoenix_test, "~> 0.6.0", only: [:test]}
     ]
   end
 

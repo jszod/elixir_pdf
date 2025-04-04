@@ -35,7 +35,7 @@
                 phx-click="cancel-upload"
                 phx-value-ref={entry.ref}
               >
-                &times;
+                ×
               </button>
             </div>
 
@@ -61,4 +61,14 @@
       </div>
     </form>
   </div>
+  
+<!-- Display view extracted text -->
+  <%= if @pdf_document do %>
+    <div class="mt-6">
+      <h2 class="text-xl font-bold">Extracted PDF Text</h2>
+      <div class="bg-gray-100 p-4 rounded-lg mt-2">
+        <pre class="whitespace-pre-wrap"><%= @pdf_document %></pre>
+      </div>
+    </div>
+  <% end %>
 </div>
